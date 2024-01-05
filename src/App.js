@@ -1,4 +1,5 @@
 import './App.css';
+import React, {useState} from 'react';
 import { CreateTodoButton } from './components/CreateTodoButton';
 import { TodoCounter } from './components/TodoCounter';
 import { TodoItem } from './components/TodoItem';
@@ -10,18 +11,34 @@ const defaultTodos=[
   {text:'Tarea 2', completed:true},
   {text:'Tarea 3', completed:false},
   {text:'Tarea 4', completed:true},
+  {text:'Tarea 5', completed:false},
 ]
 
-const completedTodos=defaultTodos.filter((todo)=>todo.completed===true).length
+
 
 function App() {
+  const [todos,setTodos]=useState(defaultTodos)
+  const [searchValue,setSearchValue]=useState('')
+
+  const completedTodos=defaultTodos.filter((todo)=>todo.completed===true).length;
+  const totalTodos=todos.length
+
+  function searchHandler (event){
+    const text=event.target.value
+    setSearchValue(text)
+  }
+
   return (
     <div className="App">
-      <TodoCounter completed={completedTodos} total={defaultTodos.length}/>
-      <TodoSearch/>
+      <TodoCounter completed={completedTodos} total={totalTodos}/>
+      <TodoSearch 
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        searchHandler={searchHandler}
+      />
       <TodoList>
         {
-         defaultTodos.map((todo)=>{
+         todos.map((todo)=>{
           return  < TodoItem key={todo.text} todoName={todo.text} completed={todo.completed}/>
         }) 
         }
