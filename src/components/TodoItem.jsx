@@ -1,9 +1,12 @@
-function TodoItem (){
+import './TodoItem.css'
+
+function TodoItem ({todoName,completed}){
     return (
-        <li>
+        <li className='TodoItem'>
             <span>V</span>
-            <p>Tarea 1</p>
+            <p>{todoName}</p>
             <span>X</span>
+            {console.log(todoName,completed)}
         </li>
     )
 }
