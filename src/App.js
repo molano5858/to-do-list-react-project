@@ -18,7 +18,7 @@ function App() {
   const [todos,setTodos]=useState(defaultTodos)
   const [searchValue,setSearchValue]=useState('')
 
-  const completedTodos=defaultTodos.filter((todo)=>todo.completed===true).length;
+  const completedTodos=todos.filter((todo)=>todo.completed===true).length;
   const totalTodos=todos.length
 
   const searchedTodos= todos.filter((todo)=>{
@@ -39,7 +39,22 @@ function App() {
     newTodos[todoNameIndex].completed=!newTodos[todoNameIndex].completed
     setTodos(newTodos)
   } 
- 
+
+  // deleteTodo using filter
+  // function deleteTodo(todoName){
+  //   const newTodos=[...todos]
+  //   const todoToDeleteIndex=newTodos.findIndex((todo)=>todo.text===todoName)
+  //   const filteredTodos=newTodos.filter((element,index)=>index!==todoToDeleteIndex)
+  //   setTodos(filteredTodos)
+  // } 
+
+  function deleteTodo(todoName){
+      const newTodos=[...todos]
+      const todoToDeleteIndex=newTodos.findIndex((todo)=>todo.text===todoName)
+      newTodos.splice(todoToDeleteIndex,1)
+      setTodos(newTodos)
+    } 
+
   return (
     <div className="App">
       <TodoCounter completed={completedTodos} total={totalTodos}/>
@@ -55,7 +70,9 @@ function App() {
             key={todo.text} 
             todoName={todo.text} 
             completed={todo.completed} 
-            completeTodo={()=>(completeTodo(todo.text))}/>
+            completeTodo={()=>(completeTodo(todo.text))}
+            deleteTodo={()=>(deleteTodo(todo.text))}
+            />
           }) 
         }
       </TodoList>
