@@ -47,4 +47,8 @@
 .Icon-delete:hover {
   color: red;
 }
+
+.Icon-unchecked:hover{
+  color: #4caf50;
+}
   

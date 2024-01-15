@@ -14,8 +14,31 @@ const defaultTodos=[
   {text:'Dante', completed:false},
 ]
 
+localStorage.setItem('todos_v1',JSON.stringify(defaultTodos))
+
+function useLocalStorage(nameInLocalStorage, initialValueToLocalStorage){// este es un custom hook que va a controlar todo lo que tenga que ver con localStorage
+  const localStorageTodos= localStorage.getItem(nameInLocalStorage)
+  let parsedTodos;
+
+  if(!localStorageTodos){
+    localStorage.setItem(nameInLocalStorage, JSON.stringify(initialValueToLocalStorage));
+    parsedTodos=initialValueToLocalStorage
+  }else{
+    parsedTodos= JSON.parse(localStorageTodos)
+  }
+  const [item,setItem]=useState(parsedTodos)
+  
+  function saveTodosInStateAndLocalStorage(todos){
+    localStorage.setItem(nameInLocalStorage,JSON.stringify(todos))
+    setItem(todos)
+  }
+
+  return [item,saveTodosInStateAndLocalStorage]
+
+}
+
 function App() {
-  const [todos,setTodos]=useState(defaultTodos)
+  const [todos,setTodos]=useLocalStorage('todos_v1',[])
   const [searchValue,setSearchValue]=useState('')
 
   const completedTodos=todos.filter((todo)=>todo.completed===true).length;
@@ -32,6 +55,8 @@ function App() {
     const text=event.target.value
     setSearchValue(text)
   }
+
+  
 
   function completeTodo(todoName){
     const newTodos=[...todos]
