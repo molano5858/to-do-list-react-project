@@ -6,6 +6,8 @@ import { TodoSearch } from '../TodoSearch/TodoSearch';
 
 
 function AppUI({
+        loading,
+        error,    
         completedTodos,
         totalTodos,
         searchValue,
@@ -15,6 +17,7 @@ function AppUI({
         completeTodo,
         deleteTodo,
     }){
+
     return (
         <div className="App">
             <TodoCounter completed={completedTodos} total={totalTodos}/>
@@ -24,6 +27,10 @@ function AppUI({
             searchHandler={searchHandler}
             />
             <TodoList>
+
+            {loading ? <p>Estamos Cargando</p>:null }
+            {error? <p>Error</p>:null }
+            {!loading && searchedTodos.length===0? <p>Crea tu Primer To Do</p>: null}
             {
                 searchedTodos.map((todo)=>{
                 return  < TodoItem 
