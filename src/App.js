@@ -1,10 +1,7 @@
 import './App.css';
-import React, {useState,useEffect} from 'react';
-import { CreateTodoButton } from './components/CreateTodoButton/CreateTodoButton';
-import { TodoCounter } from './components/TodoCounter/TodoCounter';
-import { TodoItem } from './components/TodoItem/TodoItem';
-import { TodoList } from './components/TodoList/TodoList';
-import { TodoSearch } from './components/TodoSearch/TodoSearch';
+import React, {useState} from 'react';
+import { AppUI } from './components/AppUI/AppUI';
+import { useLocalStorage } from './components/useLocalStorage/useLocalStorage';
 
 const defaultTodos=[
   {text:'felipe', completed:true},
@@ -16,26 +13,6 @@ const defaultTodos=[
 
 localStorage.setItem('todos_v1',JSON.stringify(defaultTodos))
 
-function useLocalStorage(nameInLocalStorage, initialValueToLocalStorage){// este es un custom hook que va a controlar todo lo que tenga que ver con localStorage
-  const localStorageTodos= localStorage.getItem(nameInLocalStorage)
-  let parsedTodos;
-
-  if(!localStorageTodos){
-    localStorage.setItem(nameInLocalStorage, JSON.stringify(initialValueToLocalStorage));
-    parsedTodos=initialValueToLocalStorage
-  }else{
-    parsedTodos= JSON.parse(localStorageTodos)
-  }
-  const [item,setItem]=useState(parsedTodos)
-  
-  function saveTodosInStateAndLocalStorage(todos){
-    localStorage.setItem(nameInLocalStorage,JSON.stringify(todos))
-    setItem(todos)
-  }
-
-  return [item,saveTodosInStateAndLocalStorage]
-
-}
 
 function App() {
   const [todos,setTodos]=useLocalStorage('todos_v1',[])
@@ -81,29 +58,16 @@ function App() {
     } 
 
   return (
-    <div className="App">
-      <TodoCounter completed={completedTodos} total={totalTodos}/>
-      <TodoSearch 
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        searchHandler={searchHandler}
-      />
-      <TodoList>
-        {
-         searchedTodos.map((todo)=>{
-          return  < TodoItem 
-            key={todo.text} 
-            todoName={todo.text} 
-            completed={todo.completed} 
-            completeTodo={()=>(completeTodo(todo.text))}
-            deleteTodo={()=>(deleteTodo(todo.text))}
-            />
-          }) 
-        }
-      </TodoList>
-      <CreateTodoButton />
-
-    </div>
+    <AppUI 
+    completedTodos={completedTodos}
+    totalTodos={totalTodos}
+    searchValue={searchValue}
+    setSearchValue={setSearchValue}
+    searchHandler={searchHandler}
+    searchedTodos={searchedTodos}
+    completeTodo={completeTodo}
+    deleteTodo={deleteTodo}
+    />
   );
 }
 

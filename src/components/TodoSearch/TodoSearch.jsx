@@ -1,5 +1,5 @@
 import './TodoSearch.css'
-import React,{useState} from 'react'
+import React from 'react'
 
 function TodoSearch ({searchValue,searchHandler}){
     return (
