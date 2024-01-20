@@ -3,6 +3,7 @@ import { TodoCounter } from '../TodoCounter/TodoCounter';
 import { TodoItem } from '../TodoItem/TodoItem';
 import { TodoList } from '../TodoList/TodoList';
 import { TodoSearch } from '../TodoSearch/TodoSearch';
+import { TodosLoading } from '../TodosLoading/TodosLoading';
 
 
 function AppUI({
@@ -28,7 +29,7 @@ function AppUI({
             />
             <TodoList>
 
-            {loading ? <p>Estamos Cargando</p>:null }
+            {loading ? <TodosLoading />:null }
             {error? <p>Error</p>:null }
             {!loading && searchedTodos.length===0? <p>Crea tu Primer To Do</p>: null}
             {
@@ -49,4 +50,3 @@ function AppUI({
     )
 }
 export {AppUI}
-
