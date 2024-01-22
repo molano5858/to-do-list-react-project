@@ -1,48 +1,44 @@
-import { CreateTodoButton } from '../CreateTodoButton/CreateTodoButton';
+import React,{ useContext } from 'react';
 import { TodoCounter } from '../TodoCounter/TodoCounter';
-import { TodoItem } from '../TodoItem/TodoItem';
-import { TodoList } from '../TodoList/TodoList';
 import { TodoSearch } from '../TodoSearch/TodoSearch';
+import { TodoList } from '../TodoList/TodoList';
+import { TodoItem } from '../TodoItem/TodoItem';
 import { TodosLoading } from '../TodosLoading/TodosLoading';
+import { TodosError } from '../TodosError/TodosError'
+import {EmptyTodos} from '../EmptyTodos/EmptyTodos'
+import { CreateTodoButton } from '../CreateTodoButton/CreateTodoButton';
+import { TodoContext } from '../TodosContext/TodosContext';
 
 
-function AppUI({
+function AppUI(){
+    
+    const {
         loading,
         error,    
-        completedTodos,
-        totalTodos,
-        searchValue,
-        setSearchValue,
-        searchHandler,
         searchedTodos,
         completeTodo,
-        deleteTodo,
-    }){
-
+        deleteTodo, 
+    }=useContext(TodoContext)
     return (
         <div className="App">
-            <TodoCounter completed={completedTodos} total={totalTodos}/>
-            <TodoSearch 
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-            searchHandler={searchHandler}
-            />
-            <TodoList>
+            <TodoCounter />
+            <TodoSearch/>
 
-            {loading ? <TodosLoading />:null }
-            {error? <p>Error</p>:null }
-            {!loading && searchedTodos.length===0? <p>Crea tu Primer To Do</p>: null}
-            {
-                searchedTodos.map((todo)=>{
-                return  < TodoItem 
-                key={todo.text} 
-                todoName={todo.text} 
-                completed={todo.completed} 
-                completeTodo={()=>(completeTodo(todo.text))}
-                deleteTodo={()=>(deleteTodo(todo.text))}
-                />
-                }) 
-            }
+            <TodoList>
+                {loading ? <><TodosLoading /></>:null }
+                {error? <TodosError/>:null }
+                {!loading && searchedTodos.length===0? <EmptyTodos/>: null}
+                {
+                    searchedTodos.map((todo)=>{
+                    return  < TodoItem 
+                    key={todo.text} 
+                    todoName={todo.text} 
+                    completed={todo.completed} 
+                    completeTodo={()=>(completeTodo(todo.text))}
+                    deleteTodo={()=>(deleteTodo(todo.text))}
+                    />
+                    }) 
+                }
             </TodoList>
             <CreateTodoButton />
 

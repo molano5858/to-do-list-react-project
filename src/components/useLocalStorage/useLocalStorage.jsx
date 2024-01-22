@@ -30,7 +30,6 @@ function useLocalStorage(nameInLocalStorage, initialValueToLocalStorage){// este
       localStorage.setItem(nameInLocalStorage,JSON.stringify(todos))
       setItem(todos)
     }
-  
     return ({item,saveTodosInStateAndLocalStorage,loading,error})
 }
 
